@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>ntou.cs.00557106hw4.mask</groupId>
 	<artifactId>pharmacy</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>mask</name>
 	<description>Demo project for Spring Boot</description>
 	     
