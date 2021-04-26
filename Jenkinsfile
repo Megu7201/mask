@@ -25,7 +25,7 @@ node{
     }
 
     stage('Deploy to testing Enviornment'){
-        sh 'scp target/*.war root@172.17.0.6:/usr/local/tomcat/webapps'
+        sh 'scp target/*.war root@172.17.0.7:/usr/local/tomcat/webapps'
     }
 
     stage('Run ZAP for DAST'){
