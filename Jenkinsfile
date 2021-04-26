@@ -30,7 +30,7 @@ node{
         // sh 'zap.sh'
      
 
-            sh 'ssh -p 8877  soselab@140.121.197.135 "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://192.168.11.11:3000 -r ~/Desktop/report.html"'
+            sh 'ssh -p 8877  soselab@140.121.197.135 "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://localhost:8080/mask-0.0.1-SNAPSHOT/ -r ~/Desktop/report.html"'
         
         
     }
