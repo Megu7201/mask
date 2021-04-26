@@ -35,7 +35,7 @@ public class PharmacyController {
 		return "test";
 	}
 
-	@GetMapping("http://localhost:8080/pharmacy/pharmacy")
+	@GetMapping("/pharmacy/pharmacy")
 	public String getAllPharmacy(@RequestParam(required = false) String pharmacyName,@RequestParam(required = false) String zone, Model model){
 		
 		List<Pharmacy> pharmacy;
@@ -48,7 +48,7 @@ public class PharmacyController {
 		return "pharmacy";
 	}
 	
-	@GetMapping("http://localhost:8080/pharmacy/pharmacy/{id}")
+	@GetMapping("/pharmacy/pharmacy/{id}")
 	public ResponseEntity<Pharmacy> getPharmacy(@PathVariable("id") String id){
 		Pharmacy match = pharmacyService.getPharmacy(id);
 		if (match != null)
