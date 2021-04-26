@@ -10,12 +10,11 @@
 		<!-- lookup parent from repository -->
 	</parent>
 	<groupId>ntou.cs.00557106hw4.mask</groupId>
-	<artifactId>mask</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>pharmacy</artifactId>
 	<packaging>war</packaging>
 	<name>mask</name>
 	<description>Demo project for Spring Boot</description>
-	<finalName>pharmacy</finalName>      
+	     
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
