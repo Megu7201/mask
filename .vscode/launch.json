@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch MaskHandlerTest",
+            "request": "launch",
+            "mainClass": "ntou.cs.hw4.mask.model.MaskHandlerTest",
+            "projectName": "mask",
+            "vmArgs": "-Djdk.tls.client.protocols=TLSv1.2"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MaskApplication<mask>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "ntou.cs.hw4.mask.MaskApplication",
+            "projectName": "mask",
+            "args": "",
+            "vmArgs": "-Djdk.tls.client.protocols=TLSv1.2"
+        }
+    ]
+}

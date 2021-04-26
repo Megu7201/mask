@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MaskHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mask</a> &gt; <a href="index.source.html" class="el_package">ntou.cs.hw4.mask.model</a> &gt; <span class="el_source">MaskHandler.java</span></div><h1>MaskHandler.java</h1><pre class="source lang-java linenums">package ntou.cs.hw4.mask.model;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import ntou.cs.hw4.mask.entity.Pharmacy;
+
+import org.simpleflatmapper.csv.CsvParser;
+import org.springframework.stereotype.Component;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.lang.reflect.Type;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+// References: https://gist.github.com/arnaudroger/7cbb9ca1acda66341fc10bf54ab01439
+@Component
+<span class="fc" id="L35">public class MaskHandler {</span>
+	private static final String dataURL = &quot;https://data.nhi.gov.tw/Datasets/Download.ashx?rid=A21030000I-D50001-001&amp;l=https://data.nhi.gov.tw/resource/mask/maskdata.csv&quot;;
+	private static final String fileName = &quot;maskdata.csv&quot;; // if the link is unavailable
+
+	private List&lt;Pharmacy&gt; pharmacyList;
+
+	private Map&lt;String, String&gt; constructFieldNameTranslationMap() {
+<span class="fc" id="L42">		Map&lt;String, String&gt; fieldNameTranslationMap = new HashMap&lt;String, String&gt;();</span>
+<span class="fc" id="L43">		fieldNameTranslationMap.put(&quot;﻿醫事機構代碼&quot;, &quot;id&quot;);</span>
+<span class="fc" id="L44">		fieldNameTranslationMap.put(&quot;醫事機構名稱&quot;, &quot;name&quot;);</span>
+<span class="fc" id="L45">		fieldNameTranslationMap.put(&quot;醫事機構地址&quot;, &quot;address&quot;);</span>
+<span class="fc" id="L46">		fieldNameTranslationMap.put(&quot;醫事機構電話&quot;, &quot;phone&quot;);</span>
+<span class="fc" id="L47">		fieldNameTranslationMap.put(&quot;成人口罩剩餘數&quot;, &quot;numberOfAdultMasks&quot;);</span>
+<span class="fc" id="L48">		fieldNameTranslationMap.put(&quot;兒童口罩剩餘數&quot;, &quot;numberOfChildrenMasks&quot;);</span>
+<span class="fc" id="L49">		fieldNameTranslationMap.put(&quot;來源資料時間&quot;, &quot;updatedTime&quot;);</span>
+
+<span class="fc" id="L51">		return fieldNameTranslationMap;</span>
+	}
+
+	public String produceStringFromURL(String requestURL) throws IOException {
+<span class="fc" id="L55">		try (Scanner scanner = new Scanner(new URL(requestURL).openStream(), StandardCharsets.UTF_8.toString())) {</span>
+<span class="fc" id="L56">			scanner.useDelimiter(&quot;\\A&quot;);</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">			return scanner.hasNext() ? scanner.next() : &quot;&quot;;</span>
+		}
+	}
+
+	public String produceStringFromFile(String fileName) throws IOException {
+<span class="nc" id="L62">		InputStream is = new FileInputStream(fileName);</span>
+<span class="nc" id="L63">		BufferedReader buf = new BufferedReader(new InputStreamReader(is));</span>
+<span class="nc" id="L64">		String line = buf.readLine();</span>
+<span class="nc" id="L65">		StringBuilder sb = new StringBuilder();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">		while (line != null) {</span>
+<span class="nc" id="L67">			sb.append(line).append(&quot;\n&quot;);</span>
+<span class="nc" id="L68">			line = buf.readLine();</span>
+		}
+<span class="nc" id="L70">		buf.close();</span>
+<span class="nc" id="L71">		return sb.toString();</span>
+	}
+
+	public String produceDataJson(String csvContent) throws IOException, URISyntaxException {
+
+<span class="fc" id="L76">		Map&lt;String, String&gt; fieldNameTranslationMap = constructFieldNameTranslationMap();</span>
+<span class="fc" id="L77">		org.simpleflatmapper.lightningcsv.CsvReader reader = CsvParser.reader(csvContent);</span>
+
+<span class="fc" id="L79">		JsonFactory jsonFactory = new JsonFactory();</span>
+<span class="fc" id="L80">		ByteArrayOutputStream output = new ByteArrayOutputStream();</span>
+<span class="fc" id="L81">		Iterator&lt;String[]&gt; iterator = reader.iterator();</span>
+<span class="fc" id="L82">		String[] headers = iterator.next();</span>
+
+<span class="fc" id="L84">		try (JsonGenerator jsonGenerator = jsonFactory.createGenerator(new PrintStream(output))) {</span>
+
+<span class="fc" id="L86">			jsonGenerator.setPrettyPrinter(new DefaultPrettyPrinter());</span>
+<span class="fc" id="L87">			jsonGenerator.writeStartArray();</span>
+
+<span class="fc bfc" id="L89" title="All 2 branches covered.">			while (iterator.hasNext()) {</span>
+<span class="fc" id="L90">				jsonGenerator.writeStartObject();</span>
+<span class="fc" id="L91">				String[] values = iterator.next();</span>
+<span class="fc" id="L92">				int nbCells = Math.min(values.length, headers.length);</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">				for (int i = 0; i &lt; nbCells; i++) {</span>
+<span class="fc" id="L94">					jsonGenerator.writeFieldName(fieldNameTranslationMap.get(headers[i]));</span>
+<span class="fc" id="L95">					jsonGenerator.writeString(values[i]);</span>
+				}
+<span class="fc" id="L97">				jsonGenerator.writeEndObject();</span>
+<span class="fc" id="L98">			}</span>
+<span class="fc" id="L99">			jsonGenerator.writeEndArray();</span>
+		}
+
+<span class="fc" id="L102">		return output.toString();</span>
+	}
+
+	public List&lt;Pharmacy&gt; convertToObjects(String jsonData) {
+
+<span class="fc" id="L107">		Gson gson = new Gson();</span>
+<span class="fc" id="L108">		ArrayList&lt;Pharmacy&gt; clinicList = new ArrayList&lt;Pharmacy&gt;();</span>
+
+		try {
+<span class="fc" id="L111">			Type listType = new TypeToken&lt;List&lt;Pharmacy&gt;&gt;() {</span>
+<span class="fc" id="L112">			}.getType();</span>
+<span class="fc" id="L113">			clinicList = gson.fromJson(jsonData, listType);</span>
+<span class="nc" id="L114">		} catch (Exception e) {</span>
+<span class="nc" id="L115">			System.err.println(&quot;Exception: &quot; + e);</span>
+<span class="fc" id="L116">		}</span>
+<span class="fc" id="L117">		return clinicList;</span>
+	}
+
+	public List&lt;Pharmacy&gt; findPharmacies(String queryName, String queryAddress) {
+		List&lt;Pharmacy&gt; matchingElements;
+<span class="nc bnc" id="L122" title="All 4 branches missed.">		if (queryName.equals(&quot;&quot;) &amp;&amp; queryAddress.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L123">			matchingElements = pharmacyList.stream().collect(Collectors.toList());</span>
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">		} else if (queryName.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L126">			matchingElements = pharmacyList.stream().filter(str -&gt; str.getAddress().trim().contains(queryAddress))</span>
+<span class="nc" id="L127">					.collect(Collectors.toList());</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">		} else if (queryAddress.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L129">			matchingElements = pharmacyList.stream().filter(str -&gt; str.getName().trim().contains(queryName))</span>
+<span class="nc" id="L130">					.collect(Collectors.toList());</span>
+		} else {
+<span class="nc" id="L132">			matchingElements = pharmacyList.stream().filter(</span>
+<span class="nc bnc" id="L133" title="All 4 branches missed.">					str -&gt; str.getName().trim().contains(queryName) &amp;&amp; str.getAddress().trim().contains(queryAddress))</span>
+<span class="nc" id="L134">					.collect(Collectors.toList());</span>
+		}
+
+<span class="nc" id="L137">		return matchingElements;</span>
+	}
+
+	public Pharmacy getPharmacy(String pharmacyId) {
+<span class="nc" id="L141">		List&lt;Pharmacy&gt; matchingElements = pharmacyList.stream().filter(str -&gt; str.getId().equals(pharmacyId))</span>
+<span class="nc" id="L142">				.collect(Collectors.toList());</span>
+<span class="nc bnc" id="L143" title="All 4 branches missed.">		if ((matchingElements != null) &amp;&amp; (matchingElements.size() &gt; 0)) {</span>
+<span class="nc" id="L144">			return matchingElements.get(0);</span>
+		} else {
+<span class="nc" id="L146">			return null;</span>
+		}
+	}
+
+	public void initialize() throws IOException, URISyntaxException {
+
+<span class="fc" id="L152">		String maskData = produceStringFromURL(dataURL);</span>
+		// String maskData = produceStringFromFile(fileName);
+<span class="fc" id="L154">		String maskDataJson = produceDataJson(maskData);</span>
+<span class="fc" id="L155">		pharmacyList = convertToObjects(maskDataJson);</span>
+<span class="fc" id="L156">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
