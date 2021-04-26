@@ -41,8 +41,8 @@ public class PharmacyController {
 		List<Pharmacy> pharmacy;
 		if (pharmacyName == null) pharmacyName = "";
 		if (zone == null) zone = "";
-		pharmacyName = pharmacyName.strip();
-		zone = zone.strip();
+		pharmacyName = pharmacyName.trim();
+		zone = zone.trim();
 		pharmacy = pharmacyService.getPharmacies(pharmacyName,zone);
 		model.addAttribute("pharmacy",pharmacy);
 		return "pharmacy";
