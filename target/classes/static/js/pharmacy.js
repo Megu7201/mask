@@ -11,7 +11,7 @@ function modify(event){
 		 showCancelButton: true,
 		 preConfirm:(note)=>{
 			 var data = {"pharmacyId":id,"note":note};
-			 return fetch(`/pharmacy/${id}/note`,{
+			 return fetch(`/pharmacy/pharmacy/${id}/note`,{
 				 method:"PUT",
 				 body:JSON.stringify(data),
 				 headers: {
@@ -52,7 +52,7 @@ function del(event){
 		 showCancelButton: true,
 		 preConfirm:()=>{
 			 var data = {"pharmacyId":id};
-			 return fetch(`/pharmacy/${id}/note`,{
+			 return fetch(`/pharmacy/pharmacy/${id}/note`,{
 				 method:"DELETE",
 				 body:JSON.stringify(data),
 				 headers: {
@@ -94,7 +94,7 @@ function add(event){
 		 showCancelButton: true,
 		 preConfirm:(note)=>{
 			 var data = {"pharmacyId":id,"note":note};
-			 return fetch(`/pharmacy/${id}/note`,{
+			 return fetch(`/pharmacy/pharmacy/${id}/note`,{
 				 method:"POST",
 				 body:JSON.stringify(data),
 				 headers: {
