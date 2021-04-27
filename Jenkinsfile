@@ -33,7 +33,7 @@ node{
         // sh 'zap.sh'
      
 
-            sh 'ssh -p 8877  soselab@140.121.197.135 "docker run -v /home/soselab/Desktop/test:/zap/wrk/:rw -t owasp/zap2docker-stable zap-full-scan.py -t http://192.168.11.11:8080/pharmacy/ -r report.html"'
+            sh 'ssh -p 8877  soselab@140.121.197.135 "docker run -rm -v /home/soselab/Desktop/test:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -config globalexcludeurl.url_list.url.regex='^((?!http:\/\/192.168.11.11:8080/paharmacy/\/).*)$' -t http://192.168.11.11:8080/pharmacy/ -r report.html"'
         
         
     }
