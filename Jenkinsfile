@@ -3,7 +3,7 @@ node{
         git url:"http://192.168.11.11:3000/andy/mask.git"
     }
     stage('Deploy to Heroku'){
-        sh "heroku war:deploy target/pharmacy.wae --app soselab"
+        sh "heroku war:deploy target/pharmacy.war --app soselab"
     }
     // stage('Sonar Analysis'){
     //     withSonarQubeEnv('sonar'){
