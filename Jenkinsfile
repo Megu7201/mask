@@ -33,8 +33,10 @@ node{
         // sh 'zap.sh'    
             sh 'ssh -p 8877  soselab@140.121.197.135 "docker run --rm -v /home/soselab/Desktop/test:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py  -t http://192.168.11.11:8080/pharmacy/ -r report.html" || true'                
     }
+
     stage('Deploy to Heroku'){
         sh "heroku git:remote -a soselab"
+        sh "git remote -v"
         sh "git push heroku master"
     }
 }
