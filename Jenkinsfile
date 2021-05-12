@@ -3,6 +3,7 @@ node{
         git url:"http://192.168.11.11:3000/andy/mask.git"
     }
     stage('Deploy to Heroku'){
+        sh "ls"
         sh "heroku git:remote -a soselab"
         sh "git remote -v"
         sh "git push heroku master"
