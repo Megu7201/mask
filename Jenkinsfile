@@ -30,11 +30,11 @@ node{
 
     stage('Run ZAP for DAST'){
         ///var/jenkins_home/tools/com.cloudbees.jenkins.plugins.customtools.CustomTool/ZAP/ZAP_2.10.0/zap.sh -daemon -host localhost -port 8082 -config api.key=ZAPROXY-PLUGIN -dir /var/jenkins_home/.ZAP
-        // sh 'zap.sh'
-     
-
-            sh 'ssh -p 8877  soselab@140.121.197.135 "docker run --rm -v /home/soselab/Desktop/test:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py  -t http://192.168.11.11:8080/pharmacy/ -r report.html" || true'
-        
-        
+        // sh 'zap.sh'    
+            sh 'ssh -p 8877  soselab@140.121.197.135 "docker run --rm -v /home/soselab/Desktop/test:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py  -t http://192.168.11.11:8080/pharmacy/ -r report.html" || true'                
+    }
+    stage('Deploy to Heroku'){
+        sh "heroku git:remote -a soselab"
+        sh "git push heroku master"
     }
 }
