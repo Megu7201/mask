@@ -3,9 +3,7 @@ node{
         git url:"http://192.168.11.11:3000/andy/mask.git"
     }
     stage('Deploy to Heroku'){
-        sh "echo \$(pwd)"
-        sh "heroku git:remote -a soselab"
-        sh "git remote -v"
+        sh "git remote add heroku https://git.heroku.com/soselab.git"
         sh "git push heroku master"
     }
     // stage('Sonar Analysis'){
