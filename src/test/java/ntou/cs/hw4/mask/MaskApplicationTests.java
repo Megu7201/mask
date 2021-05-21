@@ -50,7 +50,7 @@ class MaskApplicationTests {
 		JSONObject request = new JSONObject();
 		request.put("pharmacyId","2101010013");
 		request.put("note","asdslajkd");
-		mockMvc.perform(post("/pharmacy/pharmacy/2101010013/note")
+		mockMvc.perform(post("/pharmacy/2101010013/note")
 						.content(request.toString())
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
@@ -62,7 +62,7 @@ class MaskApplicationTests {
 		JSONObject request = new JSONObject();
 		request.put("pharmacyId","2101010013");
 		request.put("note","aaa");
-		mockMvc.perform(put("/pharmacy/pharmacy/2101010013/note")
+		mockMvc.perform(put("/pharmacy/2101010013/note")
 						.content(request.toString())
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
@@ -71,7 +71,7 @@ class MaskApplicationTests {
 
 	@Test
 	public void deleteNoteTest() throws Exception{
-		mockMvc.perform(delete("/pharmacy/pharmacy/2101010013/note")
+		mockMvc.perform(delete("/pharmacy/2101010013/note")
 						.content("{pharmacyId: \"2101020013\"")
 						.contentType(MediaType.APPLICATION_JSON))
 						.andDo(print()).andExpect(status().isOk());

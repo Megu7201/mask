@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF8">
+	<title>Pharmacy Search</title>
+	<link href="css/pharmacy.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	<script src="js/pharmacy.js"></script>
+</head>
+<body>
+		<div class="top">	
+				<div class="wid-15">藥局名稱</div>
+				<div class="wid-15">地址</div>
+				<div class="wid-15">電話</div>
+				<div class="wid-15">成人口罩剩餘</div>
+				<div class="wid-15">兒童口罩剩餘</div>
+				<div class="wid-15">備註</div>
+				<div class="wid-3">修改</div>
+				<div class="wid-3">刪除</div>
+				<div class="wid-3">新增</div>
+		</div>
+		<div class="table">
+		<th:block th:each="element:${pharmacy}" >
+				<div class="col">
+					<div class="wid-15" th:text="${element.name}"></div>
+					<div class="wid-15" th:text="${element.address}"></div>
+					<div class="wid-15" th:text="${element.phone}"></div>
+					<div class="wid-15" th:text="${element.numberOfAdultMasks}"></div>
+					<div class="wid-15" th:text="${element.numberOfChildrenMasks}"></div>
+					<div class="wid-15" th:text="${element.note}"></div>
+					<button th:title="${element.name}" th:alt="${element.id}" th:src="${element.note}" th:disabled="${element.note == null}" class="wid-3" onclick="modify(this)">修改</button>
+					<button th:title="${element.name}" th:alt="${element.id}" th:disabled="${element.note == null}" class="wid-3" onclick="del(this)">刪除</button>
+					<button th:title="${element.name}" th:alt="${element.id}" th:disabled="${element.note != null}" class="wid-3" onclick="add(this)">新增</button>
+				</div>
+		</th:block>
+		</div>
+
+</body>
+</html>
