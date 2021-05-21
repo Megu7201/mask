@@ -35,7 +35,7 @@ public class PharmacyController {
 		return "test";
 	}
 
-	@GetMapping("/pharmacy")
+	@GetMapping("pharmacy")
 	public String getAllPharmacy(@RequestParam(required = false) String pharmacyName,@RequestParam(required = false) String zone, Model model){
 		
 		List<Pharmacy> pharmacy;
@@ -48,7 +48,7 @@ public class PharmacyController {
 		return "pharmacy";
 	}
 	
-	@GetMapping("/pharmacy/{id}")
+	@GetMapping("pharmacy/{id}")
 	public ResponseEntity<Pharmacy> getPharmacy(@PathVariable("id") String id){
 		Pharmacy match = pharmacyService.getPharmacy(id);
 		if (match != null)
@@ -57,7 +57,7 @@ public class PharmacyController {
 			return ResponseEntity.notFound().build();	
 	}
 	
-	@PostMapping("/pharmacy/pharmacy/{id}/note")
+	@PostMapping("pharmacy/{id}/note")
 	public ResponseEntity<String> addNote(@Valid @RequestBody PharmacyRequest request){
 		Pharmacy pharmacy = pharmacyService.createNote(request);
 		URI location = ServletUriComponentsBuilder
@@ -68,7 +68,7 @@ public class PharmacyController {
 		return ResponseEntity.created(location).body(request.getNote());
 	}
 	
-	@PutMapping("/pharmacy/pharmacy/{id}/note")
+	@PutMapping("pharmacy/{id}/note")
 	public ResponseEntity<String> modifyNote(@Valid @RequestBody PharmacyRequest request){
 		Boolean changed = pharmacyService.modifyNote(request);
 		if(changed)
@@ -77,7 +77,7 @@ public class PharmacyController {
 			return ResponseEntity.badRequest().body("Error");
 	}
 	
-	@DeleteMapping("/pharmacy/pharmacy/{id}/note")
+	@DeleteMapping("pharmacy/{id}/note")
 	public ResponseEntity<String> deleteNote(@PathVariable("id") String id){
 		pharmacyService.deleteNote(id);
 		return ResponseEntity.ok().build();
