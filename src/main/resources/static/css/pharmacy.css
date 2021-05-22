@@ -24,7 +24,7 @@ body {
 .col{
 	left:0;
 	display:flex;
-	margin-top:20px;
+	margin-top:20px; 
 	background: rgba(0,0,0,0.1);
     border-radius: 5px;
     height: 50px;
