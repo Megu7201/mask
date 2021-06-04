@@ -8,7 +8,7 @@ public class Note {
 	private String pharmacyId;
 	private String note;
 	// test 1 
-	// private String password = "FNKJL456456DHFSU";   
+	// private String password = "FNKJL456FDHFSU";   
 	public String getId() {
 		return id;
 	}
