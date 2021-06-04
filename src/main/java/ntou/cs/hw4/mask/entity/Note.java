@@ -7,8 +7,7 @@ public class Note {
 	private String id;
 	private String pharmacyId;
 	private String note;
-	// test 1 
-	// private String password = "FNKJL456FDHFSU";   
+	// test 1  
 	public String getId() {
 		return id;
 	}
