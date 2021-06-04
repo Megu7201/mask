@@ -43,6 +43,8 @@ class MaskApplicationTests {
 	@Test
 	public void indexTest() throws Exception{
 		mockMvc.perform(get("/pharmacy")).andExpect(status().isOk());
+		// test 2 
+		// mockMvc.perform(get("/pharmacy")).andExpect(status().isCreated());
 	} 
 
 	@Test
@@ -54,7 +56,12 @@ class MaskApplicationTests {
 						.content(request.toString())
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
-						.andDo(print()).andExpect(status().isCreated());
+						.andExpect(status().isCreated());
+		// mockMvc.perform(post("/pharmacy/2101010013/note")
+		// 				.content(request.toString())
+		// 				.contentType(MediaType.APPLICATION_JSON)
+		// 				.accept(MediaType.APPLICATION_JSON))
+		// 				.andDo(print()).andExpect(status().isCreated());
 	}
 
 	@Test
@@ -66,7 +73,7 @@ class MaskApplicationTests {
 						.content(request.toString())
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
-						.andDo(print()).andExpect(status().isOk());
+						.andExpect(status().isOk());
 	}
 
 	@Test
@@ -74,7 +81,7 @@ class MaskApplicationTests {
 		mockMvc.perform(delete("/pharmacy/2101010013/note")
 						.content("{pharmacyId: \"2101020013\"")
 						.contentType(MediaType.APPLICATION_JSON))
-						.andDo(print()).andExpect(status().isOk());
+						.andExpect(status().isOk());
 	}
 
 }
