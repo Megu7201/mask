@@ -30,6 +30,13 @@ public class PharmacyController {
 	@Autowired
 	PharmacyService pharmacyService;
 	
+
+	@PostMapping("/SecutiryTest")
+	public void SecutiryTest(@RequestBody Note note){
+		
+	}
+
+
 	@GetMapping("/test")
 	public String test(){
 		return "test";
