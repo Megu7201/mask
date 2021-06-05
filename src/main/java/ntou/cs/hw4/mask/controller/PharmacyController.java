@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import ntou.cs.hw4.mask.entity.Pharmacy;
+import ntou.cs.hw4.mask.entity.Note;
 import ntou.cs.hw4.mask.entity.PharmacyRequest;
 import ntou.cs.hw4.mask.service.PharmacyService;
 
