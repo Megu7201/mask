@@ -33,8 +33,8 @@ public class PharmacyController {
 	
 
 	@PostMapping("/SecutiryTest")
-	public void SecutiryTest(@RequestBody String note){
-		Note myNote = new Note(note);
+	public void SecutiryTest(@RequestBody Note note){
+		// Note myNote = new Note(note);
 	}
 
 
