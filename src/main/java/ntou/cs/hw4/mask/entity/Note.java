@@ -12,6 +12,10 @@ public class Note {
 		return id;
 	}
 
+	public Note(String note){
+
+	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
