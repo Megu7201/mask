@@ -11,9 +11,9 @@ public class Note {
 	public String getId() {
 		return id;
 	}
-
+	public Note(){
+	}
 	public Note(String note){
-
 	}
 
 	public void setId(String id) {
