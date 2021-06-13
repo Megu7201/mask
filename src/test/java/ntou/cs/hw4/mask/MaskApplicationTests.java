@@ -50,26 +50,21 @@ class MaskApplicationTests {
 	@Test
 	public void postNoteTest() throws Exception{
 		JSONObject request = new JSONObject();
-		request.put("pharmacyId","2101010013");
+		request.put("pharmacyId","5901103110");
 		request.put("note","asdslajkd");
-		mockMvc.perform(post("/pharmacy/2101010013/note")
+		mockMvc.perform(post("/pharmacy/5901103110/note")
 						.content(request.toString())
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 						.andExpect(status().isCreated());
-		// mockMvc.perform(post("/pharmacy/2101010013/note")
-		// 				.content(request.toString())
-		// 				.contentType(MediaType.APPLICATION_JSON)
-		// 				.accept(MediaType.APPLICATION_JSON))
-		// 				.andDo(print()).andExpect(status().isCreated());
 	}
 
 	@Test
 	public void putNoteTest() throws Exception{
 		JSONObject request = new JSONObject();
-		request.put("pharmacyId","2101010013");
+		request.put("pharmacyId","5901103110");
 		request.put("note","aaa");
-		mockMvc.perform(put("/pharmacy/2101010013/note")
+		mockMvc.perform(put("/pharmacy/5901103110/note")
 						.content(request.toString())
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
@@ -78,8 +73,8 @@ class MaskApplicationTests {
 
 	@Test
 	public void deleteNoteTest() throws Exception{
-		mockMvc.perform(delete("/pharmacy/2101010013/note")
-						.content("{pharmacyId: \"2101020013\"")
+		mockMvc.perform(delete("/pharmacy/5901103110/note")
+						.content("{pharmacyId: \"5901103110\"")
 						.contentType(MediaType.APPLICATION_JSON))
 						.andExpect(status().isOk());
 	}
